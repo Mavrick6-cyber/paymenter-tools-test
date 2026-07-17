@@ -1,54 +1,35 @@
-# 🚀 Paymenter Auto-Setup Script
+# 🚀 Paymenter Installer
 
-This script automates the full installation and configuration of **Paymenter** on Ubuntu/Debian servers. It handles everything from installing dependencies (PHP, MariaDB, Nginx, Redis) to downloading the latest release, configuring the database, and setting up your brand.
+One-command installer for **Paymenter** on Ubuntu/Debian servers.
 
----
-
-## ⚡ The One-Liner
-
-To run this script on your server instantly, copy and paste this command into a terminal as root:
+## Install
 
 ```bash
 bash <(curl -s https://raw.githubusercontent.com/Mavrick6-cyber/paymenter-tools/main/setup-paymenter.sh)
 ```
 
-Or with sudo:
-
-```bash
-sudo bash <(curl -s https://raw.githubusercontent.com/Mavrick6-cyber/paymenter-tools/main/setup-paymenter.sh)
-```
-
----
-
 ## What It Does
 
-1. **Installs all required dependencies**: PHP 8.3, MariaDB, Nginx, Redis, and required PHP extensions
-2. **Downloads the latest Paymenter release** from GitHub
-3. **Creates and configures the database**
-4. **Sets up your `.env` file** with database credentials
-5. **Runs migrations and seeds** the database
-6. **Applies your brand settings** (company name and URL)
-7. **Configures Nginx** with proper routing
-8. **Sets correct file permissions** for the web server
+1. Installs PHP 8.3, MariaDB, Nginx, Redis
+2. Downloads latest Paymenter release
+3. Creates database and configures `.env`
+4. Runs migrations and seeds
+5. Creates your admin user
+6. Configures Nginx
+7. Sets up cronjob and queue worker
 
 ## Requirements
 
-- **OS**: Ubuntu 24.04 or Debian 11/12/13
-- **User**: Root access
-- **Network**: Internet connection (to download packages and Paymenter)
+- Ubuntu 24.04/22.04 or Debian 13/12/11
+- Root access
+- Internet connection
 
-## Interactive Setup
+## After Install
 
-The script will prompt you for:
+```bash
+# Set up SSL
+certbot --nginx -d yourdomain.com
 
-- **Database credentials** (name, username, password)
-- **Company name** (for branding)
-- **App URL** (e.g., https://billing.yoursite.com)
-
-## Post-Installation
-
-After setup completes, you may want to:
-
-- Configure SSL with Let's Encrypt: `certbot --nginx -d yourdomain.com`
-- Set up a cron job: `* * * * * cd /var/www/paymenter && php artisan schedule:run >> /dev/null 2>&1`
-- Configure a queue worker for background tasks
+# Backup your encryption key
+cat /root/paymenter-app-key.txt
+```
