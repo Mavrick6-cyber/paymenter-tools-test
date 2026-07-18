@@ -165,8 +165,9 @@ systemctl enable --now mariadb
 systemctl enable --now redis-server
 chown -R www-data:www-data /var/www/paymenter/*
 
-# Install certbot
+# Install certbot and auto-configure SSL
 apt -y install certbot python3-certbot-nginx
+certbot --nginx -d "$DOMAIN" --non-interactive --agree-tos -m "$ADMIN_EMAIL" --redirect
 
 # Save key
 grep "^APP_KEY=" .env | cut -d'=' -f2- > /root/paymenter-app-key.txt
